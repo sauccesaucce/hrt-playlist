@@ -4,14 +4,31 @@ const songItems = document.querySelectorAll('.song-item');
 const highlightBar = document.querySelector('.highlight-bar');
 const screenContent = document.querySelector('.screen-content');
 const welcomeScreen = document.getElementById('welcomeScreen');
+const ipodContainer = document.querySelector('.ipod-container');
+
+// ระบบเสียงคลิก wheel
+const clickSound = new Audio('click.mp3'); 
+clickSound.volume = 0.3;
 
 window.addEventListener('DOMContentLoaded', () => {
+    // เซ็ตคลาสธีมเริ่มต้นเป็นธีมสีออริจินอล
+    ipodContainer.classList.add('theme-original');
+    
     setTimeout(() => {
         if (welcomeScreen) {
             welcomeScreen.classList.add('fade-out');
         }
     }, 3500); 
 });
+
+// 🌟 ฟังก์ชันการเปลี่ยนธีมสีแบบยกเซต (บอดี้ + แถบไฮไลต์ + ฟอนต์)
+function changeIpodColor(colorName) {
+    // ล้างคลาสธีมเก่าออกให้หมด
+    ipodContainer.classList.remove('theme-original', 'theme-pink', 'theme-purple', 'theme-black');
+    
+    // ใส่คลาสธีมใหม่ตามปุ่มที่กดเลือก
+    ipodContainer.classList.add(`theme-${colorName}`);
+}
 
 let currentActiveIndex = 0;
 let isDragging = false;
@@ -65,6 +82,8 @@ function stopDrag() {
 }
 
 function changeActiveSong(direction) {
+    const oldIndex = currentActiveIndex;
+    
     songItems[currentActiveIndex].classList.remove('active');
     currentActiveIndex += direction;
     
@@ -72,6 +91,11 @@ function changeActiveSong(direction) {
     if (currentActiveIndex >= songItems.length) currentActiveIndex = songItems.length - 1;
 
     songItems[currentActiveIndex].classList.add('active');
+
+    if (oldIndex !== currentActiveIndex) {
+        clickSound.currentTime = 0;
+        clickSound.play().catch(err => console.log("Sound check"));
+    }
 
     const screenHeight = screenContent.clientHeight;
     const highlightPosition = currentActiveIndex * rowHeight;
