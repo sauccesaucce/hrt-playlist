@@ -11,7 +11,6 @@ const clickSound = new Audio('click.mp3');
 clickSound.volume = 0.3;
 
 window.addEventListener('DOMContentLoaded', () => {
-    // เซ็ตคลาสธีมเริ่มต้นเป็นธีมสีออริจินอล
     ipodContainer.classList.add('theme-original');
     
     setTimeout(() => {
@@ -21,12 +20,9 @@ window.addEventListener('DOMContentLoaded', () => {
     }, 3500); 
 });
 
-// 🌟 ฟังก์ชันการเปลี่ยนธีมสีแบบยกเซต (บอดี้ + แถบไฮไลต์ + ฟอนต์)
+// ฟังก์ชันการเปลี่ยนธีมสีแบบ 3 สี
 function changeIpodColor(colorName) {
-    // ล้างคลาสธีมเก่าออกให้หมด
-    ipodContainer.classList.remove('theme-original', 'theme-pink', 'theme-purple', 'theme-black');
-    
-    // ใส่คลาสธีมใหม่ตามปุ่มที่กดเลือก
+    ipodContainer.classList.remove('theme-original', 'theme-pink', 'theme-black');
     ipodContainer.classList.add(`theme-${colorName}`);
 }
 
@@ -34,7 +30,7 @@ let currentActiveIndex = 0;
 let isDragging = false;
 let startAngle = 0;
 let accumulatedAngle = 0;
-const rowHeight = 36; 
+const rowHeight = 22; // ล็อกระยะวิ่งให้เท่าความแบน 22px
 
 function getAngle(x, y) {
     const rect = wheel.getBoundingClientRect();
