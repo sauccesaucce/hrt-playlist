@@ -94,8 +94,9 @@ body {
     transition: top 0.2s ease-out;
 }
 
+/* 📺 1. ปรับความสูงช่องเพลงแต่ละแถวให้ผอมลง */
 .song-item {
-    height: 26px; /* 👈 ปรับความสูงของช่องเพลงให้แบนลงเหลือ 26px */
+    height: 22px; /* 👈 หั่นเหลือ 22px ให้แบนราบเรียบสลิมสุดๆ */
     display: flex;
     align-items: center;
     justify-content: center; 
@@ -106,33 +107,27 @@ body {
     white-space: nowrap;
 }
 
-/* ตัวหนังสือสไลด์ดุ๊กดิ๊ก */
+/* 🏃‍♂️ ตัวหนังสือสไลด์ดุ๊กดิ๊ก */
 .song-item.active {
     animation: scrollText 6s linear infinite alternate;
     display: inline-block; 
     padding-left: 10px;
     padding-right: 10px;
-    line-height: 26px; /* จัดให้ฟอนต์อยู่ตรงกลางแนวตั้งพอดีเป๊ะ */
+    line-height: 22px; /* 👈 ปรับ line-height ให้เท่าความสูงกล่อง ตัวหนังสือจะได้อยู่กึ่งกลางแนวตั้งพอดีเป๊ะ */
 }
 
-@keyframes scrollText {
-    0% { transform: translateX(0%); }
-    15% { transform: translateX(0%); }
-    85% { transform: translateX(-35%); }
-    100% { transform: translateX(-35%); }
-}
-
+/* 💎 2. ปรับความหนาของแถบไฮไลต์ฟ้าน้ำทะเล/ชมพู/ดำ ให้แบนเท่าช่องเพลง */
 .highlight-bar {
     position: absolute;
     left: 4px;         
     top: 0;
     width: calc(100% - 8px); 
-    height: 26px; /* 👈 ปรับความหนาแถบไฮไลต์ให้แบนลงสลิมๆ เหลือ 26px เท่าช่องเพลง */
+    height: 22px; /* 👈 หั่นความสูงของแถบแก้วเหลือ 22px เท่ากันเป๊ะ! */
     z-index: 1;
     transition: top 0.15s ease-out;
     border-top: 1px solid rgba(255, 255, 255, 0.6);
     border-bottom: 1px solid rgba(0, 0, 0, 0.3);
-    border-radius: 4px; /* ปรับความมนให้เข้ากับความแบน */
+    border-radius: 4px; 
     transition: background 0.4s ease, box-shadow 0.4s ease;
 }
 
@@ -150,25 +145,18 @@ body {
     text-shadow: 0 1px 3px rgba(0, 60, 80, 0.8);
 }
 
-/* 🎀 2. ธีมสีชมพู (Pink) */
-.ipod-container.theme-pink .highlight-bar {
-    background: linear-gradient(to bottom, rgba(254, 205, 211, 0.5) 0%, rgba(244, 114, 182, 0.8) 45%, rgba(219, 39, 119, 0.95) 100%);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 4px 8px rgba(244, 114, 182, 0.4);
-}
-.ipod-container.theme-pink .song-item.active {
-    color: #ffffff; /* 👈 สีฟอนต์ตอนเลือก (สีขาว) */
-    text-shadow: 0 1px 3px rgba(157, 23, 77, 0.8);
+.ipod-container.theme-pink .ipod-body { 
+    filter: hue-rotate(330deg) saturate(1.4) brightness(1.05); /* 👈 ปรับเฉดให้บอดี้และปุ่มกลางออกโทนชมพูนมมากขึ้น */
 }
 
-/* 💜 3. ธีมสีม่วง (Purple) */
-.ipod-container.theme-purple .highlight-bar {
-    background: linear-gradient(to bottom, rgba(233, 213, 255, 0.5) 0%, rgba(192, 132, 252, 0.8) 45%, rgba(147, 51, 234, 0.95) 100%);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 4px 8px rgba(192, 132, 252, 0.4);
+
+.ipod-container.theme-pink .song-item.active {
+    color: #f472b6; /* 👈 เปลี่ยนสีฟอนต์ตอนเลือกให้เป็นสีชมพูนมหวานๆ ชัดๆ ไปเลยค่ะ */
+    text-shadow: 0 1px 3px rgba(219, 39, 119, 0.4);
 }
-.ipod-container.theme-purple .song-item.active {
-    color: #ffffff; /* 👈 สีฟอนต์ตอนเลือก (สีขาว) */
-    text-shadow: 0 1px 3px rgba(107, 33, 168, 0.8);
-}
+
+
+
 
 /* 🕶️ 4. ธีมสีดำ (Black) */
 .ipod-container.theme-black .highlight-bar {
@@ -177,8 +165,8 @@ body {
     border-top: 1px solid rgba(255, 255, 255, 0.3);
 }
 .ipod-container.theme-black .song-item.active {
-    color: #34d399; /* 👈 สีฟอนต์ตอนเลือก (สีเขียวมินต์นีออน) */
-    text-shadow: 0 0 4px rgba(52, 211, 153, 0.6);
+    color: #993434; /* 👈 เปลี่ยนสีฟอนต์เป็นสีน้ำตาลแดงตามปุ่มตรงนี้เลยค่ะ! */
+    text-shadow: 0 0 4px rgba(153, 52, 52, 0.4);
 }
 
 /* ----------------------------------------------------------------- */
