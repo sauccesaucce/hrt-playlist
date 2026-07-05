@@ -119,3 +119,32 @@ body {
     -webkit-user-drag: none;
     z-index: 10;
 }
+/* 🏃‍♂️ สั่งให้ข้อความเพลงที่กำลังเลือก (active) ขยับสไลด์ซ้าย-ขวาอัตโนมัติ */
+.song-item.active {
+    color: #ffffff;
+    text-shadow: 0 1px 3px rgba(0, 60, 80, 0.8);
+    
+    /* 🌟 ใส่เอฟเฟกต์วิ่งสไลด์ซ้ายขวา: ใช้เวลาวิ่ง 6 วินาที วนลูปไปเรื่อยๆ ไม่มีหยุด */
+    animation: scrollText 6s linear infinite alternate;
+    
+    
+    display: inline-block; 
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+
+@keyframes scrollText {
+    0% {
+        transform: translateX(0%); 
+    }
+    15% {
+        transform: translateX(0%); /* ยืนนิ่งๆ ให้卧อ่านแป๊บนึง 15% ของเวลา */
+    }
+    85% {
+        transform: translateX(-35%); /* ค่อยๆ สไลด์ถอยไปทางซ้ายเพื่อให้เห็นท้ายชื่อเพลง */
+    }
+    100% {
+        transform: translateX(-35%); /* หยุดดูท้ายเพลงแป๊บนึง ก่อนจะสไลด์วิ่งกลับมาที่เดิม */
+    }
+}
