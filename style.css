@@ -11,17 +11,14 @@ body {
     align-items: center;
     min-height: 100vh;
     font-family: 'Press Start 2P', monospace;
-    overflow: hidden; /* ป้องกันแถบสกรอลล์โผล่ตอนเครื่องกำลังลอยขึ้นมา */
+    overflow: hidden;
 }
 
-/* 🚀 กล่องรวมหลัก: ใส่เอฟเฟกต์แอนิเมชันลอยมาจากด้านล่างแบบสมูทๆ */
 .ipod-container {
     position: relative;
     width: 100%;
     max-width: 650px; 
     margin: 0 auto;
-    
-    /* 🌟 เรียกใช้แอนิเมชัน: ใช้เวลา 1.2 วินาที ค่อยๆ ลอยขึ้นมาแบบนุ่มนวล (ease-out) */
     animation: fadeInUp 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
@@ -31,7 +28,6 @@ body {
     display: block;
 }
 
-/* 📺 หน้าจอเพลง */
 .ipod-screen {
     position: absolute;
     top: 14.2%;       
@@ -49,29 +45,26 @@ body {
     height: 100%;
 }
 
-/* 🖼️ กล่องฉากกั้นหน้าจอ GIF (ถมเต็มพื้นที่หน้าจอขาวพอดี) */
 .welcome-screen {
     position: absolute;
-    top: -12px; /* ดันขึ้นไปถมพื้นที่ padding ของหน้าจอหลักให้เต็ม */
+    top: -12px; 
     left: 0;
     width: 100%;
     height: calc(100% + 24px);
-    background-color: #ffffff; /* พื้นหลังจอสีขาวคลีนๆ ตอนเปิดเครื่อง */
+    background-color: #ffffff; 
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 20; /* อยู่ชั้นบนสุดเพื่อบังรายชื่อเพลงไว้ก่อน */
+    z-index: 20; 
     transition: opacity 0.5s ease-out, visibility 0.5s;
 }
 
-/* ปรับขนาดไฟล์ภาพ GIF ให้พอดีหน้าจอ */
 .welcome-gif {
     width: 80%;
     height: auto;
     object-fit: contain;
 }
 
-/* ตัวฉากกั้นเมื่อโหลดเสร็จและถูกสั่งปิดการมองเห็น */
 .welcome-screen.fade-out {
     opacity: 0;
     visibility: hidden;
@@ -87,7 +80,6 @@ body {
     transition: top 0.2s ease-out;
 }
 
-/* 🏃‍♂️ ตัวหนังสือสไลด์ดุ๊กดิ๊กตอนปล่อยมือหยุดที่เพลง */
 .song-item {
     height: 36px;
     display: flex;
@@ -116,7 +108,6 @@ body {
     100% { transform: translateX(-35%); }
 }
 
-/* 💎 แถบไฮไลต์ฟ้าน้ำทะเล 3D */
 .highlight-bar {
     position: absolute;
     left: 0;
@@ -139,13 +130,12 @@ body {
         0 4px 8px rgba(6, 182, 212, 0.3); 
 }
 
-/* 🕹️ วงล้อดักจับเมาส์ล่องหน */
 .click-wheel {
     position: absolute;
-    top: 62.6%;       
-    left: 44.2%;      
-    width: 16.5%;     
-    height: 16.5%;    
+    top: 61.5%;       
+    left: 42.8%;      
+    width: 20.0%;     
+    height: 20.0%;    
     background-color: transparent; 
     border-radius: 50%; 
     cursor: pointer;
@@ -154,14 +144,13 @@ body {
     z-index: 10;
 }
 
-/* 🎬 พิมพ์เขียวแอนิเมชันดึงตัวเครื่อง iPod ลอยขึ้นมาจากขอบจอด้านล่าง */
 @keyframes fadeInUp {
     0% {
         opacity: 0;
-        transform: translateY(100vh); /* ซ่อนตัวอยู่ใต้ขอบล่างสุดของจอ */
+        transform: translateY(100vh); 
     }
     100% {
         opacity: 1;
-        transform: translateY(0); /* ลอยขึ้นมาหยุดตรงตำแหน่งกึ่งกลางหน้าจอพอดี */
+        transform: translateY(0); 
     }
 }
