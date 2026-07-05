@@ -11,14 +11,18 @@ body {
     align-items: center;
     min-height: 100vh;
     font-family: 'Press Start 2P', monospace;
+    overflow: hidden; /* ป้องกันแถบสกรอลล์โผล่ตอนเครื่องกำลังลอยขึ้นมา */
 }
 
-/* ล็อกขนาดความกว้างเครื่องเล่นให้พอดีกับหน้าจอ */
+/* 🚀 กล่องรวมหลัก: ใส่เอฟเฟกต์แอนิเมชันลอยมาจากด้านล่างแบบสมูทๆ */
 .ipod-container {
     position: relative;
     width: 100%;
     max-width: 650px; 
     margin: 0 auto;
+    
+    /* 🌟 เรียกใช้แอนิเมชัน: ใช้เวลา 1.2 วินาที ค่อยๆ ลอยขึ้นมาแบบนุ่มนวล (ease-out) */
+    animation: fadeInUp 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
 .ipod-body {
@@ -27,16 +31,15 @@ body {
     display: block;
 }
 
+/* 📺 หน้าจอเพลง */
 .ipod-screen {
     position: absolute;
-    
     top: 14.2%;       
     left: 39.3%;      
     width: 23.0%;     
     height: 39.0%;    
-    
     background-color: transparent; 
-    padding: 12px 0px; /* 👈 เปลี่ยนเลขตัวหลังเป็น 0px เพื่อให้ของข้างในขยายชนขอบซ้าย-ขวา */
+    padding: 12px 0px; 
     overflow: hidden; 
 }
 
@@ -44,6 +47,34 @@ body {
     position: relative;
     width: 100%;
     height: 100%;
+}
+
+/* 🖼️ กล่องฉากกั้นหน้าจอ GIF (ถมเต็มพื้นที่หน้าจอขาวพอดี) */
+.welcome-screen {
+    position: absolute;
+    top: -12px; /* ดันขึ้นไปถมพื้นที่ padding ของหน้าจอหลักให้เต็ม */
+    left: 0;
+    width: 100%;
+    height: calc(100% + 24px);
+    background-color: #ffffff; /* พื้นหลังจอสีขาวคลีนๆ ตอนเปิดเครื่อง */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 20; /* อยู่ชั้นบนสุดเพื่อบังรายชื่อเพลงไว้ก่อน */
+    transition: opacity 0.5s ease-out, visibility 0.5s;
+}
+
+/* ปรับขนาดไฟล์ภาพ GIF ให้พอดีหน้าจอ */
+.welcome-gif {
+    width: 80%;
+    height: auto;
+    object-fit: contain;
+}
+
+/* ตัวฉากกั้นเมื่อโหลดเสร็จและถูกสั่งปิดการมองเห็น */
+.welcome-screen.fade-out {
+    opacity: 0;
+    visibility: hidden;
 }
 
 .song-list {
@@ -56,6 +87,7 @@ body {
     transition: top 0.2s ease-out;
 }
 
+/* 🏃‍♂️ ตัวหนังสือสไลด์ดุ๊กดิ๊กตอนปล่อยมือหยุดที่เพลง */
 .song-item {
     height: 36px;
     display: flex;
@@ -70,81 +102,66 @@ body {
 
 .song-item.active {
     color: #ffffff;
-    text-shadow: 0 1px 3px rgba(0, 60, 80, 0.8); /* เงาสีน้ำเงินเข้มข้างหลัง ช่วยขับให้ฟอนต์สีขาวคมชัดอ่านง่ายสุดๆ */
+    text-shadow: 0 1px 3px rgba(0, 60, 80, 0.8);
+    animation: scrollText 6s linear infinite alternate;
+    display: inline-block; 
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
+@keyframes scrollText {
+    0% { transform: translateX(0%); }
+    15% { transform: translateX(0%); }
+    85% { transform: translateX(-35%); }
+    100% { transform: translateX(-35%); }
+}
+
+/* 💎 แถบไฮไลต์ฟ้าน้ำทะเล 3D */
 .highlight-bar {
     position: absolute;
     left: 0;
     top: 0;
-    width: 100%;       /* ยืดเต็ม 100% ชนขอบจอซ้ายขวา */
+    width: 100%;
     height: 36px;
     z-index: 1;
     transition: top 0.15s ease-out;
-
-    /* 🌊 ไล่เฉดสีฟ้าน้ำทะเลแบบนีออนฉ่ำๆ มีมิติใสๆ 3D */
     background: linear-gradient(
         to bottom, 
-        rgba(134, 239, 172, 0.4) 0%,    /* แสงสะท้อนเขียวมิ้นต์อ่อนๆ ขอบบน */
-        rgba(6, 182, 212, 0.75) 45%,    /* สีฟ้าน้ำทะเล (Cyan) สว่างใสตรงกลาง */
-        rgba(8, 145, 178, 0.9) 100%     /* สีน้ำเงินเข้มขอบล่าง เพิ่มมิติความลึก */
+        rgba(134, 239, 172, 0.4) 0%,    
+        rgba(6, 182, 212, 0.75) 45%,    
+        rgba(8, 145, 178, 0.9) 100%     
     );
-    
-    /* เส้นขอบบนสว่างฉ่ำ ขอบล่างเข้มตัดมิติ */
     border-top: 1px solid rgba(255, 255, 255, 0.6);
     border-bottom: 1px solid rgba(0, 0, 0, 0.3);
-    
-    /* เอา border-radius ออก เพื่อให้แถบตัดตรงขนานชนขอบจอแบบเนี๊ยบๆ */
     border-radius: 0; 
-
-    /* เงา Drop Shadow ด้านหลัง ดันให้แถบกระจกฟ้าน้ำทะเลลอยเด่นขึ้นมาจากจอ */
     box-shadow: 
         inset 0 1px 0 rgba(255, 255, 255, 0.4),
-        0 4px 8px rgba(6, 182, 212, 0.3); /* เรืองแสงออร่าฟ้าน้ำทะเลจางๆ */
+        0 4px 8px rgba(6, 182, 212, 0.3); 
 }
 
-
+/* 🕹️ วงล้อดักจับเมาส์ล่องหน */
 .click-wheel {
     position: absolute;
-    
-    top: 61.5%;       /* 👈 ขยับตำแหน่งขึ้นมานิดนึงเพื่อรองรับกล่องที่ใหญ่ขึ้น */
-    left: 42.8%;      /* 👈 ขยับตำแหน่งมาทางซ้ายหน่อยเพื่อให้ศูนย์กลางเป๊ะ */
-    width: 20.0%;     /* 👈 ขยายความกว้างจาก 16.5% เป็น 20.0% เพื่อให้คลุมขอบสีเทาทั้งหมด */
-    height: 20.0%;    /* 👈 ขยายความสูงให้เป็นวงกลมเท่ากัน */
-    
-    
+    top: 62.6%;       
+    left: 44.2%;      
+    width: 16.5%;     
+    height: 16.5%;    
+    background-color: transparent; 
     border-radius: 50%; 
     cursor: pointer;
     user-select: none;
     -webkit-user-drag: none;
     z-index: 10;
 }
-/* 🏃‍♂️ สั่งให้ข้อความเพลงที่กำลังเลือก (active) ขยับสไลด์ซ้าย-ขวาอัตโนมัติ */
-.song-item.active {
-    color: #ffffff;
-    text-shadow: 0 1px 3px rgba(0, 60, 80, 0.8);
-    
-    /* 🌟 ใส่เอฟเฟกต์วิ่งสไลด์ซ้ายขวา: ใช้เวลาวิ่ง 6 วินาที วนลูปไปเรื่อยๆ ไม่มีหยุด */
-    animation: scrollText 6s linear infinite alternate;
-    
-    
-    display: inline-block; 
-    padding-left: 10px;
-    padding-right: 10px;
-}
 
-
-@keyframes scrollText {
+/* 🎬 พิมพ์เขียวแอนิเมชันดึงตัวเครื่อง iPod ลอยขึ้นมาจากขอบจอด้านล่าง */
+@keyframes fadeInUp {
     0% {
-        transform: translateX(0%); 
-    }
-    15% {
-        transform: translateX(0%); /* ยืนนิ่งๆ ให้卧อ่านแป๊บนึง 15% ของเวลา */
-    }
-    85% {
-        transform: translateX(-35%); /* ค่อยๆ สไลด์ถอยไปทางซ้ายเพื่อให้เห็นท้ายชื่อเพลง */
+        opacity: 0;
+        transform: translateY(100vh); /* ซ่อนตัวอยู่ใต้ขอบล่างสุดของจอ */
     }
     100% {
-        transform: translateX(-35%); /* หยุดดูท้ายเพลงแป๊บนึง ก่อนจะสไลด์วิ่งกลับมาที่เดิม */
+        opacity: 1;
+        transform: translateY(0); /* ลอยขึ้นมาหยุดตรงตำแหน่งกึ่งกลางหน้าจอพอดี */
     }
 }
