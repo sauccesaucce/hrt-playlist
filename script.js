@@ -5,13 +5,12 @@ const highlightBar = document.querySelector('.highlight-bar');
 const screenContent = document.querySelector('.screen-content');
 const welcomeScreen = document.getElementById('welcomeScreen');
 
-// 🌟 สั่งให้หน้าจอ Welcome GIF จางหายไปหลังจากเปิดเว็บมาแล้ว 3.5 วินาที
 window.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
         if (welcomeScreen) {
             welcomeScreen.classList.add('fade-out');
         }
-    }, 3500); // ⏱️ อยากให้ GIF เล่นนานขึ้น/ไวขึ้น เปลี่ยนตัวเลขนี้ได้น้า (3500 = 3.5 วินาที)
+    }, 3500); 
 });
 
 let currentActiveIndex = 0;
