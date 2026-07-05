@@ -14,6 +14,14 @@ body {
     overflow: hidden;
 }
 
+.main-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+}
+
 .ipod-container {
     position: relative;
     width: 100%;
@@ -26,7 +34,13 @@ body {
     width: 100%;
     height: auto;
     display: block;
+    transition: filter 0.4s ease;
 }
+
+/* 🌟 โหมดสูตรย้อมสีบอดี้เครื่องเล่น */
+.ipod-container.theme-pink .ipod-body { filter: hue-rotate(310deg) saturate(1.2); }
+.ipod-container.theme-purple .ipod-body { filter: hue-rotate(250deg) saturate(1.1); }
+.ipod-container.theme-black .ipod-body { filter: invert(0.85) contrast(1.2) brightness(0.9); }
 
 .ipod-screen {
     position: absolute;
@@ -35,7 +49,7 @@ body {
     width: 23.0%;     
     height: 39.0%;    
     background-color: transparent; 
-    padding: 12px 0px; 
+    padding: 12px 6px; 
     overflow: hidden; 
 }
 
@@ -92,9 +106,8 @@ body {
     white-space: nowrap;
 }
 
+/* 🏃‍♂️ ตัวหนังสือสไลด์ดุ๊กดิ๊ก */
 .song-item.active {
-    color: #ffffff;
-    text-shadow: 0 1px 3px rgba(0, 60, 80, 0.8);
     animation: scrollText 6s linear infinite alternate;
     display: inline-block; 
     padding-left: 10px;
@@ -110,25 +123,64 @@ body {
 
 .highlight-bar {
     position: absolute;
-    left: 0;
+    left: 4px;         
     top: 0;
-    width: 100%;
+    width: calc(100% - 8px); 
     height: 36px;
     z-index: 1;
     transition: top 0.15s ease-out;
-    background: linear-gradient(
-        to bottom, 
-        rgba(134, 239, 172, 0.4) 0%,    
-        rgba(6, 182, 212, 0.75) 45%,    
-        rgba(8, 145, 178, 0.9) 100%     
-    );
     border-top: 1px solid rgba(255, 255, 255, 0.6);
     border-bottom: 1px solid rgba(0, 0, 0, 0.3);
-    border-radius: 0; 
-    box-shadow: 
-        inset 0 1px 0 rgba(255, 255, 255, 0.4),
-        0 4px 8px rgba(6, 182, 212, 0.3); 
+    border-radius: 6px; 
+    transition: background 0.4s ease, box-shadow 0.4s ease;
 }
+
+/* -----------------------------------------------------------------
+   🌟 จัดเซตสีแถบไฮไลต์และสีฟอนต์ตามแต่ละธีม (เปลี่ยนยกชุด) 
+----------------------------------------------------------------- */
+
+/* 🌊 1. ธีมสีเดิม (Original): แถบฟ้าน้ำทะเล + ฟอนต์ขาวเงาฟ้า */
+.ipod-container.theme-original .highlight-bar {
+    background: linear-gradient(to bottom, rgba(134, 239, 172, 0.4) 0%, rgba(6, 182, 212, 0.75) 45%, rgba(8, 145, 178, 0.9) 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 4px 8px rgba(6, 182, 212, 0.3);
+}
+.ipod-container.theme-original .song-item.active {
+    color: #ffffff;
+    text-shadow: 0 1px 3px rgba(0, 60, 80, 0.8);
+}
+
+/* 🎀 2. ธีมสีชมพู (Pink): แถบแก้วชมพูนีออน Y2K + ฟอนต์ขาวเงาชมพูเข้ม */
+.ipod-container.theme-pink .highlight-bar {
+    background: linear-gradient(to bottom, rgba(254, 205, 211, 0.5) 0%, rgba(244, 114, 182, 0.8) 45%, rgba(219, 39, 119, 0.95) 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 4px 8px rgba(244, 114, 182, 0.4);
+}
+.ipod-container.theme-pink .song-item.active {
+    color: #ffffff;
+    text-shadow: 0 1px 3px rgba(157, 23, 77, 0.8);
+}
+
+/* 💜 3. ธีมสีม่วง (Purple): แถบแก้วม่วงลาเวนเดอร์ใส + ฟอนต์ขาวเงาม่วงเข้ม */
+.ipod-container.theme-purple .highlight-bar {
+    background: linear-gradient(to bottom, rgba(233, 213, 255, 0.5) 0%, rgba(192, 132, 252, 0.8) 45%, rgba(147, 51, 234, 0.95) 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 4px 8px rgba(192, 132, 252, 0.4);
+}
+.ipod-container.theme-purple .song-item.active {
+    color: #ffffff;
+    text-shadow: 0 1px 3px rgba(107, 33, 168, 0.8);
+}
+
+/* 🕶️ 4. ธีมสีดำ (Black): แถบกระจกดำเงา Cyberpunk + ฟอนต์เขียวนีออนเรืองแสง */
+.ipod-container.theme-black .highlight-bar {
+    background: linear-gradient(to bottom, rgba(64, 64, 64, 0.7) 0%, rgba(23, 23, 23, 0.9) 45%, rgba(0, 0, 0, 0.95) 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 4px 8px rgba(0, 0, 0, 0.5);
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+}
+.ipod-container.theme-black .song-item.active {
+    color: #34d399; /* สีเขียวมินต์นีออนตัดกับตัวเครื่องดำ เท่สุดๆ */
+    text-shadow: 0 0 4px rgba(52, 211, 153, 0.6);
+}
+
+/* ----------------------------------------------------------------- */
 
 .click-wheel {
     position: absolute;
@@ -144,13 +196,32 @@ body {
     z-index: 10;
 }
 
+.color-picker {
+    display: flex;
+    gap: 15px;
+    background: rgba(255, 255, 255, 0.6);
+    padding: 10px 20px;
+    border-radius: 30px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.color-dot {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid #ffffff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: transform 0.2s;
+}
+
+.color-dot:hover { transform: scale(1.2); }
+.color-dot.original { background-color: #d1d5db; }
+.color-dot.pink { background-color: #f472b6; }
+.color-dot.purple { background-color: #c084fc; }
+.color-dot.black { background-color: #1e293b; }
+
 @keyframes fadeInUp {
-    0% {
-        opacity: 0;
-        transform: translateY(100vh); 
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0); 
-    }
+    0% { opacity: 0; transform: translateY(100vh); }
+    100% { opacity: 1; transform: translateY(0); }
 }
