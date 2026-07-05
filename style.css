@@ -1,0 +1,120 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #e2e8f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: 'Press Start 2P', monospace;
+}
+
+/* ล็อกขนาดความกว้างเครื่องเล่นให้พอดีกับหน้าจอ */
+.ipod-container {
+    position: relative;
+    width: 100%;
+    max-width: 650px; 
+    margin: 0 auto;
+}
+
+.ipod-body {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* 📺 1. กล่องหน้าจอเพลง (ดึงขึ้นบนและขยับซ้าย เพื่อแก้ปัญหาขวาล่างเกิน) */
+.ipod-screen {
+    position: absolute;
+    
+    top: 14.2%;       /* 👈 ลดจาก 15.0% เหลือ 14.2% เพื่อยกกล่องจอขึ้นข้างบน */
+    left: 39.3%;      /* 👈 ลดจาก 40.2% เหลือ 39.3% เพื่อขยับกล่องจอมาทางซ้าย */
+    width: 23.0%;     
+    height: 39.0%;    
+    
+    background-color: transparent; 
+    padding: 12px 4px; 
+    overflow: hidden; 
+}
+
+.screen-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.song-list {
+    list-style: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 2;
+    transition: top 0.2s ease-out;
+}
+
+.song-item {
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    padding: 0 5px;
+    font-size: 5.5px; 
+    color: #1e293b;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.song-item.active {
+    color: #ffffff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5); /* ใส่เงาหลังตัวหนังสือให้อ่านง่ายและดูลอยเด่นขึ้นค่ะ */
+}
+
+.highlight-bar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 36px;
+    z-index: 1;
+    transition: top 0.15s ease-out;
+
+    /* 🌟 STEP 1: ทำพื้นหลังใสแบบกระจกฝ้า (Glassmorphism) */
+    background: linear-gradient(
+        to bottom, 
+        rgba(255, 255, 255, 0.25) 0%,   /* แสงสะท้อนสีขาวจางๆ ขอบบน */
+        rgba(71, 85, 105, 0.7) 40%,     /* สีเทาหลักแบบใส */
+        rgba(30, 41, 59, 0.85) 100%     /* เงาเข้มขอบล่าง ดันมิติให้จมลึก */
+    );
+    
+    /* 🌟 STEP 2: ใส่เส้นขอบเงาไฮไลต์ (ขอบบนสว่าง ขอบล่างเข้มดูลึก) */
+    border-top: 1px solid rgba(255, 255, 255, 0.4);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+
+    /* 🌟 STEP 3: ใส่เงาตกลงไปข้างหลัง (Drop Shadow) ให้แถบลอยเด่นขึ้นมาจากพื้นจอ */
+    box-shadow: 
+        inset 0 1px 0 rgba(255, 255, 255, 0.3), /* แสงนุ่มๆ ข้างใน */
+        0 4px 6px rgba(0, 0, 0, 0.15);         /* นุ่มๆ นอกตัวแถบ */
+}
+
+/* 🕹️ ปรับขยายรัศมีกล่องรับสัมผัสให้กว้างครอบขอบวงล้อสีเทา */
+.click-wheel {
+    position: absolute;
+    
+    top: 61.5%;       /* 👈 ขยับตำแหน่งขึ้นมานิดนึงเพื่อรองรับกล่องที่ใหญ่ขึ้น */
+    left: 42.8%;      /* 👈 ขยับตำแหน่งมาทางซ้ายหน่อยเพื่อให้ศูนย์กลางเป๊ะ */
+    width: 20.0%;     /* 👈 ขยายความกว้างจาก 16.5% เป็น 20.0% เพื่อให้คลุมขอบสีเทาทั้งหมด */
+    height: 20.0%;    /* 👈 ขยายความสูงให้เป็นวงกลมเท่ากัน */
+    
+    
+    border-radius: 50%; 
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-drag: none;
+    z-index: 10;
+}

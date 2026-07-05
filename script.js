@@ -1,0 +1,84 @@
+const wheel = document.getElementById('wheel');
+const songList = document.getElementById('songList');
+const songItems = document.querySelectorAll('.song-item');
+const highlightBar = document.querySelector('.highlight-bar');
+const screenContent = document.querySelector('.screen-content');
+
+let currentActiveIndex = 0;
+let isDragging = false;
+let startAngle = 0;
+let accumulatedAngle = 0;
+const rowHeight = 36; 
+
+function getAngle(x, y) {
+    const rect = wheel.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    return Math.atan2(y - centerY, x - centerX) * (180 / Math.PI);
+}
+
+function startDrag(e) {
+    isDragging = true;
+    const clientX = e.clientX || e.touches[0].clientX;
+    const clientY = e.clientY || e.touches[0].clientY;
+    startAngle = getAngle(clientX, clientY);
+    accumulatedAngle = 0;
+}
+
+function doDrag(e) {
+    if (!isDragging) return;
+    e.preventDefault();
+
+    const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+    const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+    if (!clientX || !clientY) return;
+
+    const currentAngle = getAngle(clientX, clientY);
+    let angleDiff = currentAngle - startAngle;
+
+    if (angleDiff > 180) angleDiff -= 360;
+    if (angleDiff < -180) angleDiff += 360;
+
+    accumulatedAngle += angleDiff;
+    
+    // วนนิ้วทุกๆ 20 องศาเพื่อเปลี่ยนเพลง
+    if (accumulatedAngle >= 20) {
+        changeActiveSong(1);
+        accumulatedAngle = 0;
+    } else if (accumulatedAngle <= -20) {
+        changeActiveSong(-1);
+        accumulatedAngle = 0;
+    }
+    startAngle = currentAngle;
+}
+
+function stopDrag() {
+    isDragging = false;
+}
+
+function changeActiveSong(direction) {
+    songItems[currentActiveIndex].classList.remove('active');
+    currentActiveIndex += direction;
+    
+    if (currentActiveIndex < 0) currentActiveIndex = 0;
+    if (currentActiveIndex >= songItems.length) currentActiveIndex = songItems.length - 1;
+
+    songItems[currentActiveIndex].classList.add('active');
+
+    const screenHeight = screenContent.clientHeight;
+    const highlightPosition = currentActiveIndex * rowHeight;
+    
+    let listOffset = highlightPosition - (screenHeight / 2) + (rowHeight / 2);
+    if (listOffset < 0) listOffset = 0;
+
+    songList.style.top = `-${listOffset}px`;
+    highlightBar.style.top = `${highlightPosition - listOffset}px`;
+}
+
+wheel.addEventListener('mousedown', startDrag);
+window.addEventListener('mousemove', doDrag);
+window.addEventListener('mouseup', stopDrag);
+
+wheel.addEventListener('touchstart', startDrag, { passive: false });
+wheel.addEventListener('touchmove', doDrag, { passive: false });
+wheel.addEventListener('touchend', stopDrag);
